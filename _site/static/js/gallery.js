@@ -19,22 +19,17 @@ let loadedVideos = new Set();
 let currentPage = 1;
 const videosPerPage = 10;
 let allVideoFiles = [];
+let galleryData = null;
 
 // Function to create a video box element with lazy loading
 function createVideoBox(video) {
-    const formattedTitle = video.title
-        .replace(/_/g, ' ')
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/,/g, ', ')
-        .trim();
-    
-    const videoPath = 'static/' + video.path;
+    const videoPath = video.path;
     console.log('Creating video box for:', videoPath);
     
     return `
         <div class="column is-6 mb-4">
             <div class="box video-box">
-                <h4 class="subtitle is-5 has-text-centered">${formattedTitle}</h4>
+                <h4 class="subtitle is-5 has-text-centered">${video.title}</h4>
                 <div class="video-container">
                     <div class="video-wrapper">
                         <video 
@@ -106,31 +101,80 @@ function loadMoreVideos() {
     }
 }
 
-// Function to get list of videos in a directory
-async function fetchDirectoryListing(folder) {
+// Function to load gallery data from JSON file
+async function loadGalleryData() {
     try {
-        // Extract folder name from the path
-        const folderName = folder.split('/').pop();
-        console.log('Fetching videos for folder:', folderName);
+        if (galleryData === null) {
+            const response = await fetch('/static/data/gallery_data.json');
+            if (!response.ok) {
+                throw new Error(`Failed to fetch gallery data: ${response.status} ${response.statusText}`);
+            }
+            galleryData = await response.json();
+        }
+        return galleryData;
+    } catch (error) {
+        console.error('Error loading gallery data:', error);
+        throw error;
+    }
+}
+
+// Function to load videos for a section
+async function loadVideosForSection(sectionKey) {
+    currentPage = 1;
+    const galleryContent = document.getElementById('gallery-content');
+    
+    try {
+        // Load gallery data if not already loaded
+        const data = await loadGalleryData();
+        const sectionData = data[sectionKey];
         
-        const response = await fetch(`list_files.php?folder=${folderName}`);
-        console.log('Response status:', response.status);
-        
-        if (!response.ok) {
-            throw new Error(`Failed to fetch video list: ${response.status} ${response.statusText}`);
+        if (!sectionData) {
+            throw new Error(`Section ${sectionKey} not found in gallery data`);
         }
         
-        const data = await response.json();
-        console.log('Received video data:', data);
+        console.log('Loading videos for section:', sectionKey);
         
-        // Map the files to the expected format
-        return (data.files || []).map(filename => ({
-            title: filename.replace('.mp4', ''),
-            path: `outputs_isd_new/${folder}/${filename}`
-        }));
+        // Clear previous content and show loading state
+        galleryContent.innerHTML = createGalleryContent(sectionData.title);
+        
+        const container = document.getElementById('video-container');
+        if (!container) return;
+
+        // Remove loading indicator
+        container.innerHTML = '';
+
+        // Set videos for the section
+        allVideoFiles = sectionData.videos;
+        console.log('Found videos:', allVideoFiles);
+
+        if (allVideoFiles.length === 0) {
+            container.innerHTML = `
+                <div class="column is-12">
+                    <div class="notification is-warning">
+                        No videos found in ${sectionData.title}.
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        // Load first batch of videos
+        loadMoreVideos();
+        
+        // Show "Show More" button if there are more videos
+        const loadMoreContainer = document.getElementById('load-more-container');
+        if (allVideoFiles.length > videosPerPage) {
+            loadMoreContainer.style.display = 'block';
+            document.getElementById('load-more-btn').addEventListener('click', loadMoreVideos);
+        }
+
     } catch (error) {
-        console.error('Error fetching directory listing:', error);
-        throw error;  // Re-throw to handle in the calling function
+        console.error(`Error loading videos for ${sectionKey}:`, error);
+        galleryContent.innerHTML = `
+            <div class="notification is-danger">
+                Error loading videos: ${error.message}
+            </div>
+        `;
     }
 }
 
@@ -145,7 +189,7 @@ const videoObserver = new IntersectionObserver((entries) => {
                 video.src = source.dataset.src;
                 source.src = source.dataset.src;
                 video.load();
-                video.play();  // Start playing when video becomes visible
+                video.play();
                 
                 video.onerror = () => {
                     video.parentElement.classList.remove('loading');
@@ -169,63 +213,6 @@ const videoObserver = new IntersectionObserver((entries) => {
 // Keep track of current section
 let currentSection = '';
 
-// Function to load videos for a section
-async function loadVideosForSection(sectionKey) {
-    currentSection = sectionKey;
-    currentPage = 1;
-    const config = galleryConfig[sectionKey];
-    const galleryContent = document.getElementById('gallery-content');
-    
-    console.log('Loading videos for section:', sectionKey);
-    console.log('Using folder:', config.folder);
-    
-    // Clear previous content and show loading state
-    galleryContent.innerHTML = createGalleryContent(config.title);
-    
-    const container = document.getElementById('video-container');
-    if (!container) return;
-
-    try {
-        // Remove loading indicator
-        container.innerHTML = '';
-
-        // Get list of videos in the directory
-        allVideoFiles = await fetchDirectoryListing(config.folder);
-        console.log('Found videos:', allVideoFiles);
-
-        if (allVideoFiles.length === 0) {
-            container.innerHTML = `
-                <div class="column is-12">
-                    <div class="notification is-warning">
-                        No videos found in ${config.title}. Make sure your web server is running and the video files exist in the correct folder.
-                    </div>
-                </div>
-            `;
-            return;
-        }
-
-        // Load first batch of videos
-        loadMoreVideos();
-        
-        // Show "Show More" button if there are more videos
-        const loadMoreContainer = document.getElementById('load-more-container');
-        if (allVideoFiles.length > videosPerPage) {
-            loadMoreContainer.style.display = 'block';
-            document.getElementById('load-more-btn').addEventListener('click', loadMoreVideos);
-        }
-
-    } catch (error) {
-        console.error(`Error loading videos for ${sectionKey}:`, error);
-        container.innerHTML = `
-            <div class="column is-12">
-                <div class="notification is-danger">
-                    Error loading videos: ${error.message}. Please make sure your web server is running and PHP is enabled.
-                </div>
-            </div>
-        `;
-    }
-}
-
 // Function to handle button clicks
 function handleFolderButtonClick(event) {
     const button = event.target;
@@ -243,18 +230,30 @@ function handleFolderButtonClick(event) {
 }
 
 // Initialize the gallery
-function initGallery() {
+async function initGallery() {
     const galleryContainer = document.getElementById('results-gallery');
     if (!galleryContainer) return;
 
-    // Add click event listener for folder buttons
-    galleryContainer.addEventListener('click', handleFolderButtonClick);
-    
-    // Load first folder by default
-    const firstButton = galleryContainer.querySelector('.folder-buttons .button');
-    if (firstButton) {
-        firstButton.classList.add('is-active');
-        loadVideosForSection(firstButton.dataset.folder);
+    try {
+        // Load gallery data first
+        await loadGalleryData();
+        
+        // Add click event listener for folder buttons
+        galleryContainer.addEventListener('click', handleFolderButtonClick);
+        
+        // Load first folder by default
+        const firstButton = galleryContainer.querySelector('.folder-buttons .button');
+        if (firstButton) {
+            firstButton.classList.add('is-active');
+            loadVideosForSection(firstButton.dataset.folder);
+        }
+    } catch (error) {
+        console.error('Failed to initialize gallery:', error);
+        galleryContainer.innerHTML = `
+            <div class="notification is-danger">
+                Failed to load gallery data: ${error.message}
+            </div>
+        `;
     }
 }
 
