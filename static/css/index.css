@@ -1,0 +1,1626 @@
+html, body {
+  overflow-x: hidden !important;  /* Force hide horizontal scrollbar */
+  margin: 0;
+  padding: 0;
+  width: 100vw;  /* Use viewport width */
+  max-width: 100vw;  /* Limit to viewport width */
+  position: relative;  /* Create stacking context */
+}
+
+body {
+  font-family: 'Google Sans', 'Noto Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2c3e50;
+  min-height: 100vh;  /* Ensure full viewport height */
+  position: relative;  /* Ensure proper stacking context */
+}
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+  font-weight: 800;
+  background: linear-gradient(
+    45deg,
+    #33FF66,  /* Bright Green */
+    #33CCFF   /* Bright Blue */
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 0 0.2em;
+  display: inline-block;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+  animation: shine 3s linear infinite;
+  white-space: nowrap;
+  letter-spacing: normal;
+}
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+  padding: 1rem 0;
+  background: linear-gradient(135deg, #f6f8ff 0%, #ffffff 100%);
+}
+
+.teaser .hero-body {
+  padding: 2rem 0;
+}
+
+.teaser .subtitle {
+    font-family: 'Google Sans', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    line-height: 1.6;
+    color: #1a365d;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+    border-radius: 50px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(147, 197, 253, 0.2);
+    word-wrap: normal;
+    white-space: normal;
+}
+
+.teaser .subtitle .dnerf {
+  font-variant: small-caps;
+  font-weight: 800;
+  background: linear-gradient(
+    45deg,
+    #FF3366,  /* Bright Pink */
+    #FF9933,  /* Bright Orange */
+    #33FF66,  /* Bright Green */
+    #33CCFF,  /* Bright Blue */
+    #CC66FF   /* Bright Purple */
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 0 0.2em;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+  animation: shine 3s linear infinite;
+}
+
+.teaser .subtitle::before,
+.teaser .subtitle::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 3px;
+  background: linear-gradient(90deg,
+    #FF6B6B,  /* Coral Red */
+    #4ECDC4,  /* Turquoise */
+    #45B7D1,  /* Sky Blue */
+    #96C93D   /* Lime Green */
+  );
+  background-size: 200% 200%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  animation: rainbow-shimmer 8s linear infinite;
+}
+
+.teaser .subtitle::before {
+  top: 0;
+}
+
+.teaser .subtitle::after {
+  bottom: 0;
+}
+
+/* Hover effect */
+.teaser .subtitle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(59, 130, 246, 0.12);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .teaser .subtitle {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        padding: 1.25rem 1.5rem;
+        margin: 0 1rem;
+        border-radius: 25px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .teaser .subtitle {
+        font-size: clamp(0.8rem, 3.5vw, 1rem);
+        padding: 1rem;
+        margin: 0 0.5rem;
+        border-radius: 20px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .teaser {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  }
+  
+  .teaser .subtitle {
+    background: #2d3748;
+    color: #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  
+  .teaser .subtitle .dnerf {
+    background: linear-gradient(
+      45deg,
+      #FF4D80,  /* Brighter Pink */
+      #FFB366,  /* Brighter Orange */
+      #66FF80,  /* Brighter Green */
+      #66DDFF,  /* Brighter Blue */
+      #DD80FF   /* Brighter Purple */
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 4px 8px rgba(255,255,255,0.25));
+  }
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+    word-break: normal;
+    white-space: normal;
+    line-height: 1.2;
+}
+
+/* Add this new class for better title handling */
+.title.is-2.publication-title {
+    font-size: 1.75rem;  /* Slightly smaller font size */
+    margin-bottom: 1.5rem;
+}
+
+.container.is-max-desktop {
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
+  overflow: hidden;  /* Hide overflow */
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: #000;
+    margin: 2rem 0;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Optional: Add a hover effect */
+.publication-video:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+
+/* .interpolation-panel {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.interpolation-video-column {
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+#interpolation-image-wrapper {
+  width: 100%;
+}
+#interpolation-image-wrapper img {
+  border-radius: 5px;
+} */
+
+.rainbow-text {
+  font-size: clamp(3.5rem, 7vw, 5em);  /* Increased from 2.5rem to 3.5rem base, and max from 3.5em to 5em */
+  font-weight: 800;
+  font-variant: small-caps;
+  text-transform: none;
+  background: linear-gradient(
+    45deg,
+    #33FF66,  /* Bright Green */
+    #33FF66,
+    #33CCFF,  /* Bright Blue */
+    #33CCFF
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.05em;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+  animation: shine 3s linear infinite;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: visible;
+}
+
+.rainbow-text::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    -45deg,
+    #33FF66,  /* Bright Green */
+    #33CCFF   /* Bright Blue */
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  z-index: -1;
+  transform: translate(2px, 2px);
+  filter: blur(1px);
+  animation: shine 3s linear infinite reverse;
+}
+
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .rainbow-text, 
+  .rainbow-text::before,
+  .teaser .subtitle .dnerf {
+    background: linear-gradient(
+      45deg,
+      #FF4D80,  /* Brighter Pink */
+      #FFB366,  /* Brighter Orange */
+      #66FF80,  /* Brighter Green */
+      #66DDFF,  /* Brighter Blue */
+      #DD80FF   /* Brighter Purple */
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(2px 4px 8px rgba(255,255,255,0.25));
+  }
+}
+
+.gradient-background {
+  background: linear-gradient(45deg, 
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 223, 223, 0.8) 25%,
+    rgba(255, 236, 236, 0.8) 50%,
+    rgba(255, 223, 223, 0.8) 75%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('path-to-your-texture.jpg') center center;
+  opacity: 0.1;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.hero.gradient-background {
+  padding: 3rem 0;
+  margin-bottom: 2rem;
+  border-radius: 0 0 50% 50% / 10%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Adjust the existing title styles */
+.title.is-1.publication-title.rainbow-text {
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.title.is-2.publication-title {
+  max-width: 900px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.4;
+}
+
+.video-hero {
+    position: relative;
+    width: 100vw;  /* Use viewport width */
+    left: 50%;  /* Center the hero */
+    right: 50%;  /* Center the hero */
+    margin-left: -50vw;  /* Negative margin to compensate */
+    margin-right: -50vw;  /* Negative margin to compensate */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+}
+
+/* Default state - hide portrait video */
+.portrait-video {
+    display: none;
+}
+
+/* Portrait mode - show portrait video and hide landscape */
+@media screen and (orientation: portrait) {
+    .landscape-video {
+        display: none;
+    }
+    
+    .portrait-video {
+        display: block;
+    }
+}
+
+/* Landscape mode - show landscape video and hide portrait */
+@media screen and (orientation: landscape) {
+    .landscape-video {
+        display: block;
+    }
+    
+    .portrait-video {
+        display: none;
+    }
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.hero-body {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 100vw;  /* Limit to viewport width */
+    margin: 0 auto;
+    overflow-x: hidden;  /* Hide overflow */
+}
+
+.hero-body .container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: hidden;
+}
+
+/* Enhanced text contrast for better readability */
+.title.is-1.publication-title.rainbow-text {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.title.is-2.publication-title {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.publication-authors {
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+.publication-authors a {
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Responsive container */
+.container.is-max-desktop {
+    width: 100%;
+    padding: 0 1rem;
+    margin: 0 auto;
+}
+
+/* Title responsiveness */
+.title.is-1.publication-title.rainbow-text {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: calc(2rem + 1vw);
+}
+
+.title.is-2.publication-title {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    font-size: calc(1.5rem + 0.5vw);
+    margin: 1rem auto;
+    max-width: 90%;
+}
+
+.publication-authors {
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    font-size: calc(0.9rem + 0.2vw);
+}
+
+/* Media queries for better responsiveness */
+@media screen and (max-width: 768px) {
+    .video-hero {
+        padding: 3rem 0;
+    }
+    
+    .hero-body {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media screen and (min-width: 1408px) {
+    .container.is-max-desktop {
+        max-width: 1344px;
+    }
+}
+
+/* Pipeline section styling */
+.pipeline-section {
+    background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+    border-radius: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    padding: 4rem 2rem;
+    margin: 4rem auto;
+    max-width: 1400px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.section-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2.75rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #4a90e2, #67b26f);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+.pipeline-container {
+    width: 100%;
+    overflow: hidden;
+    margin: 3rem 0;
+    padding: 1rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.pipeline-image {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.pipeline-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.pipeline-caption {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #4a5568;
+    margin: 2.5rem auto;
+    max-width: 1000px;
+    text-align: justify;
+    padding: 0 2rem;
+    font-family: 'Google Sans', sans-serif;
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.pipeline-caption p {
+    margin-bottom: 0;
+}
+
+/* Math styling in caption */
+.pipeline-caption .MathJax {
+    font-size: 105% !important;
+    color: #2d3748;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .pipeline-section {
+        padding: 3rem 1rem;
+        margin: 2rem auto;
+    }
+
+    .section-title {
+        font-size: 2.25rem;
+        margin-bottom: 2rem;
+}
+
+.pipeline-caption {
+    font-size: 1rem;
+        padding: 1.5rem;
+    margin: 2rem auto;
+        line-height: 1.7;
+    }
+    
+    .pipeline-container {
+        padding: 0.75rem;
+        margin: 2rem 0;
+    }
+}
+
+/* Hover effects */
+.pipeline-container:hover .pipeline-image {
+    transform: scale(1.01);
+}
+
+/* Dark mode considerations */
+@media (prefers-color-scheme: dark) {
+    .pipeline-section {
+        background: linear-gradient(to bottom, #1a202c, #2d3748);
+    }
+
+    .section-title {
+        color: #e2e8f0;
+    }
+
+    .pipeline-caption {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+
+    .pipeline-container {
+        background: #2d3748;
+    }
+
+    .pipeline-caption .MathJax {
+        color: #e2e8f0;
+    }
+}
+
+/* Additional enhancements */
+.pipeline-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.2), transparent);
+}
+
+.pipeline-container::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.1), transparent);
+    border-radius: 1px;
+}
+
+/* Results section styling */
+.results-section {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    padding: 3rem 1.5rem;
+    margin: 4rem auto;
+    max-width: 1400px;
+}
+
+.section-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin: 2rem 0;
+    padding: 1rem;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 0.9rem;
+}
+
+.results-table th,
+.results-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.results-table thead {
+    background: #f5f5f5;
+}
+
+.results-table th {
+    font-weight: 600;
+    color: #333;
+}
+
+.results-table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.results-table .our-method {
+    background: #f0f7ff;
+    font-weight: 500;
+}
+
+.results-table .best {
+    font-weight: bold;
+    color: #2a6496;
+}
+
+.results-table td[class*="underline"] {
+    text-decoration: underline;
+}
+
+.table-caption {
+    text-align: center;
+    color: #666;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    padding: 0 1rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .results-section {
+        padding: 2rem 1rem;
+        margin: 2rem auto;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .results-table {
+        font-size: 0.8rem;
+    }
+
+    .results-table th,
+    .results-table td {
+        padding: 8px;
+    }
+}
+
+/* LaTeX table styling */
+.latex-table {
+    width: 100%;
+    overflow-x: auto;
+    padding: 2rem 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.latex-table .MathJax {
+    font-size: 90% !important;
+}
+
+/* Make sure the table is scrollable on mobile */
+@media screen and (max-width: 768px) {
+    .latex-table {
+        padding: 1rem 0;
+        margin: 0 -1rem;
+        width: calc(100% + 2rem);
+    }
+    
+    .latex-table .MathJax {
+        font-size: 80% !important;
+    }
+}
+
+/* Enhance table caption */
+.table-caption {
+    margin-top: 1.5rem;
+    color: #555;
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.results-section .table {
+  background-color: white;
+  font-size: 0.9rem;
+}
+
+.results-section .table th {
+  text-align: center;
+  vertical-align: middle;
+  background-color: #f5f5f5;
+}
+
+.results-section .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.results-section .box {
+  box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+  padding: 1.25rem;
+}
+
+.has-text-weight-bold {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.is-underlined {
+  text-decoration: underline;
+  color: #34495e;
+}
+
+.t3bench-section {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  padding: 3rem 1.5rem;
+    margin: 4rem auto;
+    max-width: 1400px;
+}
+
+.t3bench-section .table {
+  background-color: white;
+  font-size: 0.9rem;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.t3bench-section .table th {
+  text-align: center;
+  vertical-align: middle;
+  background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+.t3bench-section .table td {
+  text-align: center;
+  vertical-align: middle;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+}
+
+.t3bench-section .table td:first-child {
+  font-weight: 500;
+  text-align: left;
+    font-family: 'Google Sans', sans-serif;
+}
+
+.t3bench-section .table td:not(:first-child) {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.t3bench-section .box {
+  box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.t3bench-section tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Style for highlighted cells in both tables */
+.t3bench-section td[style*="background-color: #ffcdd2"],
+.results-section td[style*="background-color: #ffcdd2"] {
+  font-weight: bold;
+    background-color: #ffcdd2 !important;
+}
+
+.t3bench-section td[style*="background-color: #fff9c4"],
+.results-section td[style*="background-color: #fff9c4"] {
+  text-decoration: underline;
+    background-color: #fff9c4 !important;
+}
+
+/* Consistent table caption styling */
+.t3bench-section .subtitle.is-6,
+.results-section .subtitle.is-6 {
+    margin-top: 1.5rem;
+    color: #555;
+    font-size: 0.95rem;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Google Sans', sans-serif;
+}
+
+/* Results Gallery Styles */
+.results-gallery {
+  padding: 2rem 0;
+}
+
+.results-gallery .box {
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.results-gallery .box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.results-gallery video {
+  width: 100%;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.results-gallery .subtitle {
+  color: #363636;
+  margin-bottom: 0.5rem;
+  font-family: 'Google Sans', sans-serif;
+}
+
+.results-gallery .title.is-4 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-family: 'Google Sans', sans-serif;
+}
+
+/* Make videos responsive */
+.results-gallery .video-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.results-gallery .video-container video {
+  width: 100%;
+  display: block;
+}
+
+/* Add loading animation */
+.results-gallery video.loading {
+  background: #f5f5f5;
+  min-height: 200px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .results-gallery .box {
+    margin-bottom: 1rem;
+  }
+  
+  .results-gallery .title.is-4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .results-gallery .subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.video-wrapper video {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+}
+
+.video-box {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: white;
+    margin: 0;
+    padding: 0;
+}
+
+.results-gallery .box {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.results-gallery .subtitle.is-5 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    padding: 0 0.5rem;
+}
+
+/* Optimize video playback */
+video {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+    background: #000;
+}
+
+.results-gallery .box {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.results-gallery .subtitle.is-5 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.bibtex-container {
+  position: relative;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.copy-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background: #357abd;
+  transform: translateY(-1px);
+}
+
+.copy-button:active {
+  transform: translateY(0);
+}
+
+.copy-button i {
+  font-size: 1rem;
+}
+
+.copy-button.copied {
+  background: #68b784;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .bibtex-container {
+    background: #2d3748;
+  }
+  
+  .copy-button {
+    background: #4299e1;
+  }
+  
+  .copy-button:hover {
+    background: #3182ce;
+  }
+  
+  .copy-button.copied {
+    background: #48bb78;
+  }
+}
+
+/* Title responsiveness */
+.title.is-1.publication-title.rainbow-text {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin: 0 auto;
+  width: auto;  /* Allow natural width */
+  max-width: 100%;  /* Prevent overflow */
+  padding: 0 1rem;  /* Add some padding */
+}
+
+/* Adjust container for better title display */
+.hero-body .container {
+  overflow-x: hidden;  /* Hide horizontal overflow */
+  padding: 0 1rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .rainbow-text {
+    font-size: clamp(2.8rem, 10vw, 3.5rem);  /* Increased mobile font size */
+    letter-spacing: 0.02em;  /* Tighter letter spacing on mobile */
+  }
+  
+  .hero-body {
+    padding: 1rem 0.5rem;  /* Reduce padding on mobile */
+  }
+}
+
+.highlight-quality,
+.highlight-diverse {
+    display: inline;
+    white-space: nowrap;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+/* Abstract section styling */
+.section .column.is-four-fifths {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.section .title.is-3 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2.75rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+}
+
+.section .title.is-3::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #33FF66, #33CCFF);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+.section .content.has-text-justified {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #2c3e50;
+    border: 1px solid rgba(51, 255, 102, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section .content.has-text-justified:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+.section .content.has-text-justified p {
+    margin-bottom: 0;
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .section .title.is-3 {
+        color: #e2e8f0;
+    }
+
+    .section .content.has-text-justified {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: rgba(51, 255, 102, 0.05);
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .section .title.is-3 {
+        font-size: 2.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .section .content.has-text-justified {
+        padding: 1.75rem;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin: 0 1rem;
+    }
+}
+
+/* Enhanced BibTeX section styling */
+#BibTeX {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 4rem 2rem;
+    margin: 2rem 0;
+    border-radius: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+#BibTeX .title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2.75rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+}
+
+#BibTeX .title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #33FF66, #33CCFF);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+.bibtex-container {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    border: 1px solid rgba(51, 255, 102, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bibtex-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+.bibtex-container pre {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin: 0;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.copy-button {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #33FF66, #33CCFF);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(51, 255, 102, 0.2);
+}
+
+.copy-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(51, 255, 102, 0.3);
+    background: linear-gradient(135deg, #66FF80, #66DDFF);
+}
+
+.copy-button:active {
+    transform: translateY(0);
+}
+
+.copy-button i {
+    font-size: 1.1rem;
+}
+
+.copy-button.copied {
+    background: linear-gradient(135deg, #33FF66, #33FF66);
+}
+
+.copy-button.copied i {
+    color: white;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    #BibTeX {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    }
+
+    #BibTeX .title {
+        color: #e2e8f0;
+    }
+
+    .bibtex-container {
+        background: #2d3748;
+        border-color: rgba(51, 255, 102, 0.05);
+    }
+
+    .bibtex-container pre {
+        background: #1a202c;
+        border-color: rgba(255,255,255,0.05);
+        color: #e2e8f0;
+    }
+
+    .copy-button {
+        background: linear-gradient(135deg, #66FF80, #66DDFF);
+    }
+
+    .copy-button:hover {
+        background: linear-gradient(135deg, #80FF99, #80E5FF);
+    }
+
+    .copy-button.copied {
+        background: linear-gradient(135deg, #66FF80, #66FF80);
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    #BibTeX {
+        padding: 3rem 1rem;
+    }
+
+    #BibTeX .title {
+        font-size: 2.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .bibtex-container {
+        padding: 1.75rem;
+        margin: 1rem;
+    }
+
+    .bibtex-container pre {
+        padding: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .copy-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Base typography */
+:root {
+    --font-primary: 'Google Sans', 'Noto Sans', sans-serif;
+    --font-mono: 'Fira Code', 'Consolas', monospace;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2rem;
+    --font-size-4xl: 2.75rem;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.8;
+}
+
+/* Global typography reset */
+body {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: #2c3e50;
+}
+
+/* Section titles consistency */
+.section .title.is-3,
+.pipeline-section .section-title,
+.results-section .title.is-3,
+.t3bench-section .title.is-3,
+#BibTeX .title {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+/* Content text consistency */
+.section .content.has-text-justified,
+.pipeline-caption,
+.results-section .content,
+.t3bench-section .content {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    color: #2c3e50;
+}
+
+/* Table text consistency */
+.results-section .table,
+.t3bench-section .table {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+}
+
+/* Code/BibTeX consistency */
+.bibtex-container pre {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+}
+
+/* Button text consistency */
+.copy-button,
+.folder-buttons .button {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+}
+
+/* Responsive typography */
+@media screen and (max-width: 768px) {
+    :root {
+        --font-size-base: 0.9375rem;
+        --font-size-lg: 1rem;
+        --font-size-xl: 1.125rem;
+        --font-size-2xl: 1.25rem;
+        --font-size-3xl: 1.75rem;
+        --font-size-4xl: 2.25rem;
+    }
+    
+    .section .content.has-text-justified,
+    .pipeline-caption,
+    .results-section .content,
+    .t3bench-section .content {
+        font-size: var(--font-size-base);
+        line-height: var(--line-height-normal);
+    }
+}
+
+/* Dark mode color adjustments */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-text: #e2e8f0;
+        --color-text-secondary: #a0aec0;
+    }
+
+    body {
+        color: var(--color-text);
+    }
+
+    .section .title.is-3,
+    .pipeline-section .section-title,
+    .results-section .title.is-3,
+    .t3bench-section .title.is-3,
+    #BibTeX .title {
+        color: var(--color-text);
+    }
+
+    .section .content.has-text-justified,
+    .pipeline-caption,
+    .results-section .content,
+    .t3bench-section .content {
+        color: var(--color-text);
+    }
+}
+
+
+
+
+
+

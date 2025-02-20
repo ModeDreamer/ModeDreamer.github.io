@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="ModeDreamer: Mode Guiding Score Distillation for Text-to-3D Generation using Reference Image Prompts.">
+  <meta name="keywords" content="ModeDreamer, ISD, text-to-3D, Text-to-3D, IP-Adapter">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ModeDreamer: Mode Guiding Score Distillation for Text-to-3D Generation using Reference Image Prompts</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script type="text/javascript" async
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/js/bulma-slider.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <script defer src="./static/js/index.js"></script>
+  <script defer src="./static/js/gallery.js"></script>
+</head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+<section class="hero video-hero">
+  <!-- Full-width video background -->
+  <div class="video-background">
+    <video autoplay loop muted playsinline class="hero-video landscape-video">
+      <source src="static/videos/background.mp4" type="video/mp4">
+    </video>
+    <video autoplay loop muted playsinline class="hero-video portrait-video">
+      <source src="static/videos/background-portrait.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title rainbow-text">ModeDreamer</h1>
+          <h1 class="title is-2 publication-title">Mode Guiding Score Distillation for Text-to-3D Generation <br> using Reference Image Prompts</h1>
+          <h1 class="title is-4 publication-title">Arxiv</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=OpPFGrIAAAAJ&hl=en">Uy Dieu Tran</a><sup>1,*</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=Q7C_mlIAAAAJ&hl=en">Minh Luu</a><sup>1,*</sup>,</span>
+            <span class="author-block">
+              <a href="https://phongnhhn.info/">Phong Ha Nguyen</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.khoinguyen.org/">Khoi Nguyen</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://sonhua.github.io/">Binh-Son Hua</a><sup>1,2</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>VinAI Research,</span>
+            <span class="author-block"><sup>2</sup>Trinity College Dublin</span>
+          </div>
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal contribution</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="./ModeDreamer.pdf" 
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2411.18135"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=Tjd1EV2GuME&t=4s"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/VinAIResearch/DiverseDream"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span> -->
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video> -->
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">ModeDreamer</span>&nbsp;can&nbsp;generate&nbsp;<span class="highlight-quality">high-quality</span>&nbsp;and&nbsp;<span class="highlight-diverse">diverse</span>&nbsp;3D&nbsp;objects comparable to state-of-the-art approaches.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Existing Score Distillation Sampling (SDS)-based methods have driven significant progress in text-to-3D generation. However, 3D models produced by SDS-based methods tend to exhibit over-smoothing and low-quality outputs. 
+These issues arise from the mode-seeking behavior of current methods, where the scores used to update the model oscillate between multiple modes, resulting in unstable optimization and diminished output quality. 
+To address this problem, we introduce a novel image prompt score distillation loss named ISD, which employs a reference image to direct text-to-3D optimization toward a specific mode. 
+Our ISD loss can be implemented by using IP-Adapter, a lightweight adapter for integrating image prompt capability to a text-to-image diffusion model, as a mode-selection module. 
+A variant of this adapter, when not being prompted by a reference image, can serve as an efficient control variate to reduce variance in score estimates, thereby enhancing both output quality and optimization stability. 
+Our experiments demonstrate that the ISD loss consistently achieves visually coherent, high-quality outputs and improves optimization speed compared to prior text-to-3D methods, as demonstrated through both qualitative and quantitative evaluations on the T3Bench benchmark suite.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<!-- Pipeline. -->
+<section class="pipeline-section">
+  <h2 class="section-title">Pipeline Method</h2>
+  
+  <div class="pipeline-container">
+    <figure class="pipeline-image">
+      <img src="./static/figures/pipeline.png" alt="ModeDreamer Pipeline" />
+    </figure>
+  </div>
+
+  <div class="pipeline-caption">
+    <p>
+      An overview of our method. Starting with input prompt \(y\), we generate a reference image \(x_{\text{ref}}\) using a text-to-image model. Both the text prompt and the image prompt are used with the IP-Adapter for score distillation, following our ISD gradient \(\nabla_\theta \mathcal{L}_{\text{ISD}}\). To mitigate view bias by reference image and the Janus problem, we incorporate additional multi-view regularization by jointly optimizing \(\nabla_\theta \mathcal{L}_{\text{ISD}}\) with \(\nabla_\theta \mathcal{L}_{\text{SDS-MVD}}\).
+    </p>
+  </div>
+</section>
+
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-centered is-3 has-text-centered">Comparision</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/icecream.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/donut_christmas.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/wind_chime.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/hand_crafted_vase.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/ghost_hamburger.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dress.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/cocktail.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/brownie.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/goose_gold.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/latern.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mushroom.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/elegant.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/orchid.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="section results-gallery" id="results-gallery">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results Gallery</h2>
+    
+    <!-- Folder selection buttons -->
+    <div class="buttons is-centered folder-buttons mb-5">
+      <button class="button is-primary" data-folder="GPTEval3D">GPT Evaluation</button>
+      <button class="button is-primary" data-folder="T3Bench">T3Bench Results</button>
+      <button class="button is-primary" data-folder="Other">Other Results</button>
+    </div>
+
+    <!-- Gallery content container -->
+    <div id="gallery-content"></div>
+  </div>
+</section>
+
+
+
+<section class="results-section">
+  <h2 class="title is-3 has-text-centered">GPTEval3D Results</h2>
+  
+  <div class="container is-max-desktop">
+    <div class="box">
+      <div class="table-container">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th>Methods</th>
+              <th>Text-Asset Alignment</th>
+              <th>3D Plausibility</th>
+              <th>Text-Geometry Alignment</th>
+              <th>Texture Details</th>
+              <th>Geometry Details</th>
+              <th>Overall ↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RichDreamer [39]</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">1295</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">1225</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">1260</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">1356</td>
+              <td>1251</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">1277</td>
+            </tr>
+            <tr>
+              <td>MVDream [46]</td>
+              <td>1271</td>
+              <td>1147</td>
+              <td>1251</td>
+              <td>1325</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">1255</td>
+              <td>1250</td>
+            </tr>
+            <tr>
+              <td>ProlificDreamer [53]</td>
+              <td>1262</td>
+              <td>1059</td>
+              <td>1152</td>
+              <td>1246</td>
+              <td>1181</td>
+              <td>1180</td>
+              
+            </tr>
+            <tr>
+              <td>LatentNeRF [35]</td>
+              <td>1222</td>
+              <td>1145</td>
+              <td>1157</td>
+              <td>1180</td>
+              <td>1161</td>
+              <td>1173</td>
+            </tr>
+            <tr>
+              <td>Instant3D [22]</td>
+              <td>1200</td>
+              <td>1088</td>
+              <td>1153</td>
+              <td>1152</td>
+              <td>1181</td>
+              <td>1155</td>
+            </tr>
+            <tr>
+              <td>Magic3D [24]</td>
+              <td>1152</td>
+              <td>1001</td>
+              <td>1084</td>
+              <td>1178</td>
+              <td>1100</td>
+              <td>1100</td>
+            </tr>
+            <tr>
+              <td>DreamGaussian [48]</td>
+              <td>1101</td>
+              <td>954</td>
+              <td>1159</td>
+              <td>1126</td>
+              <td>1131</td>
+              <td>1094</td>
+            </tr>
+            <tr>
+              <td>SJC [51]</td>
+              <td>1130</td>
+              <td>995</td>
+              <td>1034</td>
+              <td>1080</td>
+              <td>1043</td>
+              <td>1056</td>
+            </tr>
+            <tr>
+              <td>Fantasia3D [2]</td>
+              <td>1068</td>
+              <td>892</td>
+              <td>1006</td>
+              <td>1109</td>
+              <td>1027</td>
+              <td>1021</td>
+            </tr>
+            <tr>
+              <td>Dreamfusion [38]</td>
+              <td>1000</td>
+              <td>1000</td>
+              <td>1000</td>
+              <td>1000</td>
+              <td>1000</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>One2345 [25]</td>
+              <td>872</td>
+              <td>829</td>
+              <td>850</td>
+              <td>911</td>
+              <td>860</td>
+              <td>864</td>
+            </tr>
+            <tr>
+              <td>Shap-E [17]</td>
+              <td>843</td>
+              <td>842</td>
+              <td>846</td>
+              <td>784</td>
+              <td>846</td>
+              <td>836</td>
+            </tr>
+            <tr>
+              <td>Point-E [37]</td>
+              <td>725</td>
+              <td>690</td>
+              <td>689</td>
+              <td>716</td>
+              <td>746</td>
+              <td>713</td>
+            </tr>
+            <tr>
+              <td>ISD (ours)</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">1291</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">1271</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">1269</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">1370</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">1266</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">1294</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content has-text-centered mt-4">
+        <p class="subtitle is-6">
+          Table 4. Comparison with text-to-3D methods using GPTEval3D [56] benchmark. 
+          The best results are in <span style="font-weight: bold; background-color: #ffcdd2">red</span> while the second best results are in <span style="text-decoration: underline; background-color: #fff9c4">yellow</span>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="t3bench-section">
+  <h2 class="title is-3 has-text-centered">T3Bench Results</h2>
+  
+  <div class="container is-max-desktop">
+    <div class="box">
+      <div class="table-container">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th rowspan="2">Time<br>(mins)</th>
+              <th colspan="3">Single Object</th>
+              <th colspan="3">Single Object with Surr</th>
+              <th colspan="3">Multiple Objects</th>
+            </tr>
+            <tr>
+              <th>Qual. ↑</th>
+              <th>Align. ↑</th>
+              <th>Avg ↑</th>
+              <th>Qual. ↑</th>
+              <th>Align. ↑</th>
+              <th>Avg ↑</th>
+              <th>Qual. ↑</th>
+              <th>Align. ↑</th>
+              <th>Avg ↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dreamfusion [38]</td>
+              <td>30</td>
+              <td>24.9</td>
+              <td>24.0</td>
+              <td>24.4</td>
+              <td>19.3</td>
+              <td>29.8</td>
+              <td>24.6</td>
+              <td>17.3</td>
+              <td>14.8</td>
+              <td>16.1</td>
+            </tr>
+            <tr>
+              <td>Magic3D [24]</td>
+              <td>40</td>
+              <td>38.7</td>
+              <td>35.3</td>
+              <td>37.0</td>
+              <td>29.8</td>
+              <td>41.0</td>
+              <td>35.4</td>
+              <td>26.6</td>
+              <td>24.8</td>
+              <td>25.7</td>
+            </tr>
+            <tr>
+              <td>LatentNeRF [35]</td>
+              <td>65</td>
+              <td>34.2</td>
+              <td>32.0</td>
+              <td>33.1</td>
+              <td>23.7</td>
+              <td>37.5</td>
+              <td>30.6</td>
+              <td>21.7</td>
+              <td>19.5</td>
+              <td>20.6</td>
+            </tr>
+            <tr>
+              <td>Fantasia3D [2]</td>
+              <td>45</td>
+              <td>29.2</td>
+              <td>23.5</td>
+              <td>26.4</td>
+              <td>21.9</td>
+              <td>32.0</td>
+              <td>27.0</td>
+              <td>22.7</td>
+              <td>14.3</td>
+              <td>18.5</td>
+            </tr>
+            <tr>
+              <td>SJC [51]</td>
+              <td>25</td>
+              <td>26.3</td>
+              <td>23.0</td>
+              <td>24.7</td>
+              <td>17.3</td>
+              <td>22.3</td>
+              <td>19.8</td>
+              <td>11.7</td>
+              <td>5.8</td>
+              <td>8.7</td>
+            </tr>
+            <tr>
+              <td>ProlificDreamer [53]</td>
+              <td>240</td>
+              <td>51.1</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">47.8</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">49.4</td>
+              <td>42.5</td>
+              <td>47.0</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">44.8</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">45.7</td>
+              <td>25.8</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">35.8</td>
+            </tr>
+            <tr>
+              <td>MVDream [46]</td>
+              <td>30</td>
+              <td>53.2</td>
+              <td>42.3</td>
+              <td>47.8</td>
+              <td>36.3</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">48.5</td>
+              <td>42.4</td>
+              <td>39.0</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">28.5</td>
+              <td>33.8</td>
+            </tr>
+            <tr>
+              <td>DreamGaussian [48]</td>
+              <td>7</td>
+              <td>19.9</td>
+              <td>19.8</td>
+              <td>19.8</td>
+              <td>10.4</td>
+              <td>17.8</td>
+              <td>14.1</td>
+              <td>12.3</td>
+              <td>9.5</td>
+              <td>10.9</td>
+            </tr>
+            <tr>
+              <td>GeoDream [32]</td>
+              <td>400</td>
+              <td>48.4</td>
+              <td>33.8</td>
+              <td>41.1</td>
+              <td>35.2</td>
+              <td>34.5</td>
+              <td>34.9</td>
+              <td>34.3</td>
+              <td>16.5</td>
+              <td>25.4</td>
+            </tr>
+            <tr>
+              <td>RichDreamer [39]</td>
+              <td>70</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">57.3</td>
+              <td>40.0</td>
+              <td>48.6</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">43.9</td>
+              <td>42.3</td>
+              <td>43.1</td>
+              <td>34.8</td>
+              <td>22.0</td>
+              <td>28.4</td>
+            </tr>
+            <tr>
+              <td>ISD (ours)</td>
+              <td>40</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">55.4</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">52.6</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">54.0</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">45.7</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">59.0</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">52.4</td>
+              <td style="text-decoration: underline; background-color: #fff9c4">43.4</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">39.4</td>
+              <td style="font-weight: bold; background-color: #ffcdd2">41.4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content has-text-centered mt-4">
+        <p class="subtitle is-6">
+          Table 1. Comparative results for the text-to-3D task across three settings of T3Bench. 
+          The best results are in <span style="font-weight: bold; background-color: #ffcdd2">red</span> while the second best results are in <span style="text-decoration: underline; background-color: #fff9c4">yellow</span>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper video. -->
+<!-- <div class="columns is-centered has-text-centered">
+  <div class="column is-four-fifths">
+    <h2 class="title is-3">Video</h2>
+    <div class="publication-video">
+      <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+              frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+  </div>
+</div> -->
+<!--/ Paper video. -->
+
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <div class="bibtex-container">
+      <button class="copy-button" onclick="copyBibtex()">
+        <i class="fas fa-copy"></i>
+        <span>Copy</span>
+      </button>
+      <pre><code id="bibtex-content">@article{tran2024modedreamer,
+  title={ModeDreamer: Mode Guiding Score Distillation for Text-to-3D Generation using Reference Image Prompts},
+  author={Tran, Uy Dieu and Luu, Minh and Nguyen, Phong Ha and Nguyen, Khoi and Hua, Binh-Son},
+  journal={arXiv preprint arXiv:2411.18135},
+  year={2024}
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+<script>
+function copyBibtex() {
+  const bibtexContent = document.getElementById('bibtex-content').textContent;
+  navigator.clipboard.writeText(bibtexContent).then(() => {
+    const button = document.querySelector('.copy-button');
+    const span = button.querySelector('span');
+    const icon = button.querySelector('i');
+    
+    // Change button appearance
+    button.classList.add('copied');
+    span.textContent = 'Copied!';
+    icon.classList.remove('fa-copy');
+    icon.classList.add('fa-check');
+    
+    // Reset button after 2 seconds
+    setTimeout(() => {
+      button.classList.remove('copied');
+      span.textContent = 'Copy';
+      icon.classList.remove('fa-check');
+      icon.classList.add('fa-copy');
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy text: ', err);
+  });
+}
+</script>
+
+
+
+
+  
