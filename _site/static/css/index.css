@@ -1,8 +1,19 @@
+html, body {
+  overflow-x: hidden !important;  /* Force hide horizontal scrollbar */
+  margin: 0;
+  padding: 0;
+  width: 100vw;  /* Use viewport width */
+  max-width: 100vw;  /* Limit to viewport width */
+  position: relative;  /* Create stacking context */
+}
+
 body {
   font-family: 'Google Sans', 'Noto Sans', sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: #2c3e50;
+  min-height: 100vh;  /* Ensure full viewport height */
+  position: relative;  /* Ensure proper stacking context */
 }
 
 .footer .icon-link {
@@ -17,8 +28,22 @@ body {
 
 .dnerf {
   font-variant: small-caps;
+  font-weight: 800;
+  background: linear-gradient(
+    45deg,
+    #33FF66,  /* Bright Green */
+    #33CCFF   /* Bright Blue */
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 0 0.2em;
+  display: inline-block;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+  animation: shine 3s linear infinite;
+  white-space: nowrap;
+  letter-spacing: normal;
 }
-
 
 .teaser .hero-body {
   padding-top: 0;
@@ -36,26 +61,22 @@ body {
 }
 
 .teaser .subtitle {
-  font-family: 'Google Sans', sans-serif;
-  font-size: 1.5rem;
-  line-height: 1.4;
-  color: #1a365d;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.5rem 2.5rem;
-  position: relative;
-  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
-  border-radius: 50px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(147, 197, 253, 0.2);
+    font-family: 'Google Sans', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    line-height: 1.6;
+    color: #1a365d;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+    border-radius: 50px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(147, 197, 253, 0.2);
+    word-wrap: normal;
+    white-space: normal;
 }
 
 .teaser .subtitle .dnerf {
@@ -112,14 +133,22 @@ body {
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
-  .teaser .subtitle {
-    font-size: 1.1rem;
-    padding: 1rem 1.5rem;
-    margin: 0 1rem;
-    white-space: normal;
-    text-align: center;
-    border-radius: 16px;
-  }
+    .teaser .subtitle {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        padding: 1.25rem 1.5rem;
+        margin: 0 1rem;
+        border-radius: 25px;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .teaser .subtitle {
+        font-size: clamp(0.8rem, 3.5vw, 1rem);
+        padding: 1rem;
+        margin: 0 0.5rem;
+        border-radius: 20px;
+    }
 }
 
 /* Dark mode support */
@@ -164,7 +193,10 @@ body {
 }
 
 .container.is-max-desktop {
-  max-width: 1400px !important;  /* Increased width */
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
+  overflow: hidden;  /* Hide overflow */
 }
 
 .publication-banner {
@@ -302,36 +334,28 @@ body {
 } */
 
 .rainbow-text {
-  font-size: 3.5em;
-  font-weight: 900;
+  font-size: clamp(3.5rem, 7vw, 5em);  /* Increased from 2.5rem to 3.5rem base, and max from 3.5em to 5em */
+  font-weight: 800;
+  font-variant: small-caps;
+  text-transform: none;
   background: linear-gradient(
     45deg,
-    #FF3366,  /* Bright Pink */
-    #FF3366,
-    #FF9933,  /* Bright Orange */
-    #FF9933,
     #33FF66,  /* Bright Green */
     #33FF66,
     #33CCFF,  /* Bright Blue */
-    #33CCFF,
-    #CC66FF,  /* Bright Purple */
-    #CC66FF
+    #33CCFF
   );
   background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
   z-index: 1;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
   animation: shine 3s linear infinite;
-}
-
-@keyframes shine {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  white-space: nowrap;
+  display: inline-block;
+  overflow: visible;
 }
 
 .rainbow-text::before {
@@ -343,11 +367,8 @@ body {
   height: 100%;
   background: linear-gradient(
     -45deg,
-    #FF3366,
-    #FF9933,
-    #33FF66,
-    #33CCFF,
-    #CC66FF
+    #33FF66,  /* Bright Green */
+    #33CCFF   /* Bright Blue */
   );
   background-size: 300% 300%;
   -webkit-background-clip: text;
@@ -356,6 +377,12 @@ body {
   transform: translate(2px, 2px);
   filter: blur(1px);
   animation: shine 3s linear infinite reverse;
+}
+
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Dark mode support */
@@ -424,8 +451,11 @@ body {
 
 .video-hero {
     position: relative;
-    width: 100%;
-    min-height: max-content;
+    width: 100vw;  /* Use viewport width */
+    left: 50%;  /* Center the hero */
+    right: 50%;  /* Center the hero */
+    margin-left: -50vw;  /* Negative margin to compensate */
+    margin-right: -50vw;  /* Negative margin to compensate */
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -437,19 +467,51 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
+    overflow: hidden;
 }
 
 .hero-video {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
     transform: translateX(-50%) translateY(-50%);
     object-fit: cover;
+}
+
+/* Default state - hide portrait video */
+.portrait-video {
+    display: none;
+}
+
+/* Portrait mode - show portrait video and hide landscape */
+@media screen and (orientation: portrait) {
+    .landscape-video {
+        display: none;
+    }
+    
+    .portrait-video {
+        display: block;
+    }
+}
+
+/* Landscape mode - show landscape video and hide portrait */
+@media screen and (orientation: landscape) {
+    .landscape-video {
+        display: block;
+    }
+    
+    .portrait-video {
+        display: none;
+    }
 }
 
 .video-overlay {
@@ -466,6 +528,17 @@ body {
     z-index: 1;
     padding: 2rem 1.5rem;
     width: 100%;
+    max-width: 100vw;  /* Limit to viewport width */
+    margin: 0 auto;
+    overflow-x: hidden;  /* Hide overflow */
+}
+
+.hero-body .container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow: hidden;
 }
 
 /* Enhanced text contrast for better readability */
@@ -622,12 +695,12 @@ body {
     .section-title {
         font-size: 2.25rem;
         margin-bottom: 2rem;
-    }
+}
 
-    .pipeline-caption {
-        font-size: 1rem;
+.pipeline-caption {
+    font-size: 1rem;
         padding: 1.5rem;
-        margin: 2rem auto;
+    margin: 2rem auto;
         line-height: 1.7;
     }
     
@@ -923,7 +996,7 @@ body {
 
 .t3bench-section td[style*="background-color: #fff9c4"],
 .results-section td[style*="background-color: #fff9c4"] {
-    text-decoration: underline;
+  text-decoration: underline;
     background-color: #fff9c4 !important;
 }
 
@@ -1145,6 +1218,405 @@ video {
   .copy-button.copied {
     background: #48bb78;
   }
+}
+
+/* Title responsiveness */
+.title.is-1.publication-title.rainbow-text {
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin: 0 auto;
+  width: auto;  /* Allow natural width */
+  max-width: 100%;  /* Prevent overflow */
+  padding: 0 1rem;  /* Add some padding */
+}
+
+/* Adjust container for better title display */
+.hero-body .container {
+  overflow-x: hidden;  /* Hide horizontal overflow */
+  padding: 0 1rem;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .rainbow-text {
+    font-size: clamp(2.8rem, 10vw, 3.5rem);  /* Increased mobile font size */
+    letter-spacing: 0.02em;  /* Tighter letter spacing on mobile */
+  }
+  
+  .hero-body {
+    padding: 1rem 0.5rem;  /* Reduce padding on mobile */
+  }
+}
+
+.highlight-quality,
+.highlight-diverse {
+    display: inline;
+    white-space: nowrap;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+/* Abstract section styling */
+.section .column.is-four-fifths {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.section .title.is-3 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2.75rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+}
+
+.section .title.is-3::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #33FF66, #33CCFF);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+.section .content.has-text-justified {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #2c3e50;
+    border: 1px solid rgba(51, 255, 102, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section .content.has-text-justified:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+.section .content.has-text-justified p {
+    margin-bottom: 0;
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .section .title.is-3 {
+        color: #e2e8f0;
+    }
+
+    .section .content.has-text-justified {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: rgba(51, 255, 102, 0.05);
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .section .title.is-3 {
+        font-size: 2.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .section .content.has-text-justified {
+        padding: 1.75rem;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin: 0 1rem;
+    }
+}
+
+/* Enhanced BibTeX section styling */
+#BibTeX {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 4rem 2rem;
+    margin: 2rem 0;
+    border-radius: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+
+#BibTeX .title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2.75rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    position: relative;
+}
+
+#BibTeX .title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #33FF66, #33CCFF);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+.bibtex-container {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    border: 1px solid rgba(51, 255, 102, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bibtex-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+.bibtex-container pre {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin: 0;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.copy-button {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #33FF66, #33CCFF);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(51, 255, 102, 0.2);
+}
+
+.copy-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(51, 255, 102, 0.3);
+    background: linear-gradient(135deg, #66FF80, #66DDFF);
+}
+
+.copy-button:active {
+    transform: translateY(0);
+}
+
+.copy-button i {
+    font-size: 1.1rem;
+}
+
+.copy-button.copied {
+    background: linear-gradient(135deg, #33FF66, #33FF66);
+}
+
+.copy-button.copied i {
+    color: white;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    #BibTeX {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    }
+
+    #BibTeX .title {
+        color: #e2e8f0;
+    }
+
+    .bibtex-container {
+        background: #2d3748;
+        border-color: rgba(51, 255, 102, 0.05);
+    }
+
+    .bibtex-container pre {
+        background: #1a202c;
+        border-color: rgba(255,255,255,0.05);
+        color: #e2e8f0;
+    }
+
+    .copy-button {
+        background: linear-gradient(135deg, #66FF80, #66DDFF);
+    }
+
+    .copy-button:hover {
+        background: linear-gradient(135deg, #80FF99, #80E5FF);
+    }
+
+    .copy-button.copied {
+        background: linear-gradient(135deg, #66FF80, #66FF80);
+    }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    #BibTeX {
+        padding: 3rem 1rem;
+    }
+
+    #BibTeX .title {
+        font-size: 2.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .bibtex-container {
+        padding: 1.75rem;
+        margin: 1rem;
+    }
+
+    .bibtex-container pre {
+        padding: 1rem;
+        font-size: 0.85rem;
+    }
+
+    .copy-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Base typography */
+:root {
+    --font-primary: 'Google Sans', 'Noto Sans', sans-serif;
+    --font-mono: 'Fira Code', 'Consolas', monospace;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2rem;
+    --font-size-4xl: 2.75rem;
+    --line-height-normal: 1.6;
+    --line-height-relaxed: 1.8;
+}
+
+/* Global typography reset */
+body {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: #2c3e50;
+}
+
+/* Section titles consistency */
+.section .title.is-3,
+.pipeline-section .section-title,
+.results-section .title.is-3,
+.t3bench-section .title.is-3,
+#BibTeX .title {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-4xl);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+/* Content text consistency */
+.section .content.has-text-justified,
+.pipeline-caption,
+.results-section .content,
+.t3bench-section .content {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    color: #2c3e50;
+}
+
+/* Table text consistency */
+.results-section .table,
+.t3bench-section .table {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+}
+
+/* Code/BibTeX consistency */
+.bibtex-container pre {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+}
+
+/* Button text consistency */
+.copy-button,
+.folder-buttons .button {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+}
+
+/* Responsive typography */
+@media screen and (max-width: 768px) {
+    :root {
+        --font-size-base: 0.9375rem;
+        --font-size-lg: 1rem;
+        --font-size-xl: 1.125rem;
+        --font-size-2xl: 1.25rem;
+        --font-size-3xl: 1.75rem;
+        --font-size-4xl: 2.25rem;
+    }
+    
+    .section .content.has-text-justified,
+    .pipeline-caption,
+    .results-section .content,
+    .t3bench-section .content {
+        font-size: var(--font-size-base);
+        line-height: var(--line-height-normal);
+    }
+}
+
+/* Dark mode color adjustments */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-text: #e2e8f0;
+        --color-text-secondary: #a0aec0;
+    }
+
+    body {
+        color: var(--color-text);
+    }
+
+    .section .title.is-3,
+    .pipeline-section .section-title,
+    .results-section .title.is-3,
+    .t3bench-section .title.is-3,
+    #BibTeX .title {
+        color: var(--color-text);
+    }
+
+    .section .content.has-text-justified,
+    .pipeline-caption,
+    .results-section .content,
+    .t3bench-section .content {
+        color: var(--color-text);
+    }
 }
 
 

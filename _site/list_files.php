@@ -16,7 +16,7 @@ function getMP4Files($directory) {
 
 $baseDir = 'static/outputs_isd_new/';
 $folder = isset($_GET['folder']) ? $_GET['folder'] : '';
-$allowedFolders = ['isd_bunny', 'isd_multi', 'isd_single', 'isd_surr'];
+$allowedFolders = ['GPTEval3D', 'Other', 'T3Bench'];
 
 if (!in_array($folder, $allowedFolders)) {
     echo json_encode(['error' => 'Invalid folder']);

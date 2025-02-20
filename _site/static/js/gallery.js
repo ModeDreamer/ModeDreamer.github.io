@@ -1,20 +1,16 @@
 // Configuration for the gallery sections with video folders
 const galleryConfig = {
-    'isd_bunny': {
-        title: 'Bunny Generation Results',
-        folder: 'isd_bunny'  // Simplified path
+    'GPTEval3D': {
+        title: 'GPT Evaluation Results',
+        folder: 'GPTEval3D'
     },
-    'isd_multi': {
-        title: 'Multi-Object Generation Results',
-        folder: 'isd_multi'  // Simplified path
+    'T3Bench': {
+        title: 'T3Bench Results',
+        folder: 'T3Bench'
     },
-    'isd_single': {
-        title: 'Single Object Generation Results',
-        folder: 'isd_single'  // Simplified path
-    },
-    'isd_surr': {
-        title: 'Objects with Surrounding Context',
-        folder: 'isd_surr'  // Simplified path
+    'Other': {
+        title: 'Other Results',
+        folder: 'Other'
     }
 };
 
@@ -117,7 +113,7 @@ async function fetchDirectoryListing(folder) {
         const folderName = folder.split('/').pop();
         console.log('Fetching videos for folder:', folderName);
         
-        const response = await fetch(`list_videos.php?folder=${folderName}`);
+        const response = await fetch(`list_files.php?folder=${folderName}`);
         console.log('Response status:', response.status);
         
         if (!response.ok) {
@@ -127,14 +123,10 @@ async function fetchDirectoryListing(folder) {
         const data = await response.json();
         console.log('Received video data:', data);
         
-        if (!data.success) {
-            throw new Error(data.error || 'Unknown error occurred');
-        }
-        
-        // Map the videos to ensure paths are correct
-        return (data.videos || []).map(video => ({
-            ...video,
-            path: video.path.replace(/^static\//, '')  // Remove 'static/' from the beginning if present
+        // Map the files to the expected format
+        return (data.files || []).map(filename => ({
+            title: filename.replace('.mp4', ''),
+            path: `outputs_isd_new/${folder}/${filename}`
         }));
     } catch (error) {
         console.error('Error fetching directory listing:', error);
